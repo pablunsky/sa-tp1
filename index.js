@@ -49,6 +49,7 @@ app.get('/getPosted', function (req, res)
     }).pipe(res); //Retorna la respuesta del Web Service
 });
 
+//Inicializa la aplicacion en el puerto 3500
 const server = app.listen(3500, function ()
 {
     console.log('Aplicacion inicializada');
