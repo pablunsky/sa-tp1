@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<title>TP1</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+<body>
+
+    <div class="w3-container">
+        <h2>Tarea practica 1</h2>
+        <p>Pablo Andres Hernandez Rivera</p>
+        <p>201603191</p>
+    </div>
+
+    <div class="w3-bar w3-black">
+        <button class="w3-bar-item w3-button" onclick="mostrar('Insertar')">Insertar</button>
+        <button class="w3-bar-item w3-button" onclick="mostrar('Listar'); obtenerDatos()">Listar</button>
+    </div>
+
+    <div id="Insertar" class="w3-container tab">
+        <h2>Insertar un contacto</h2>
+        <p>Clic aqui para insertar un contacto nuevo.</p>
+        <button class="w3-button w3-black" onclick="insertarDato()">Insertar</button>
+        <div id="error" class="w3-panel w3-pale-red w3-border tab" style="display: none;">
+            <h3>Error</h3>
+            <p>No se ha podido insertar el contacto.</p>
+        </div>
+        <div id="success" class="w3-panel w3-green w3-border tab" style="display: none;">
+            <h3>Exito</h3>
+            <p>Dato insertado con exito.</p>
+        </div>
+    </div>
+
+    <div id="Listar" class="w3-container tab" style="display:none">
+        <h2>Datos insertados</h2>
+        <p>Se presentan los datos ingresados con el carne 201603191.</p>
+        <div id="data" class="w3-container">
+
+        </div>
+    </div>
+
+    <script>
+
+        const insertarDato = () =>
+        {
+            //Oculta mensajes de exito o error
+            document.getElementById("success").style.display = "none";
+            document.getElementById("error").style.display = "none";
+
+            //Llama al endpoint creado en el servidor de express que publica un dato con 201603191 como nombre
+            fetch("/postData").then(res =>
+            {
+                //Muestra un mensaje de exito en la peticion
+                document.getElementById("success").style.display = "block";
+            }).catch(err =>
+            {
+                //Muestra un mensaje de error en la peticion
+                document.getElementById("error").style.display = "block";
+            });
+        }
+
+        function mostrar(cityName)
+        {
+            //Oculta todos los componentes con el nombre de clase tab
+            var i;
+            var x = document.getElementsByClassName("tab");
+            for (i = 0; i < x.length; i++)
+            {
+                x[i].style.display = "none";
+            }
+            //Muestra el componente recibido como parametro
+            document.getElementById(cityName).style.display = "block";
+        }
+
+        const obtenerDatos = () =>
+        {
+            //Llama al endpoint creado en el servidor de express que obtiene todos los contactos con 201603191 como nombre
+            fetch('/getPosted').then(res =>
+            {
+                //Convierte la respuesta a un objeto JSON
+                res.json().then(data =>
+                {
+                    //Vacia el contenido anterior
+                    let cont = document.getElementById("data");
+                    cont.innerHTML = "";
+                    //Agrega un contenedor por cada elemento recibido del endpoint
+                    data._embedded.item.forEach(item =>
+                    {
+                        cont.innerHTML += `<div class="w3-card-4">
+                            <header class="w3-container w3-blue">
+                              <p>ID: ${item.id}</p>
+                              <p>NAME: ${item.name}</p>
+                            </header>
+                        </div><br/>`;
+                    });
+
+                })
+            })
+        }
+
+    </script>
+
+</body>
+
+</html>
