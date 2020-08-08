@@ -18,7 +18,7 @@ node index.js
 ```
 Si se dirige al navegador, en la ruta http://localhost:3500/ debera visualizar la pagina principal.
 Al hacer clic en el boton "Insertar" publicara un nuevo contacto con el nombre "201603191".
-![alt text](https://github.com/pablunsky/sa-tp1/docs/insert.png "Insertar")
+![alt text](/docs/insert.png "Insertar")
 Si se dirige a la pestana "Listar" podra ver todos los contactos agregados con el nombre "201603191".
-![alt text](https://github.com/pablunsky/sa-tp1/docs/list.png "Listar")
+![alt text](/docs/list.png "Listar")
 Esto se logra con el consumo del web service disponible en https://api.softwareavanzado.world/index.php.
