@@ -7,17 +7,21 @@ var fs = require('fs');
 
 //Acceso a archivo de variables de entorno
 const dotenv = require('dotenv');
+const { time } = require('console');
 dotenv.config();
 
 //Middlewears utiles para trabajar con express
 app.use(bodyParser.json());
 app.use(express.static(__dirname + '/public'));
 
+//Definimos una variable global para almacenar token de autorizacion
 var accessToken;
+var timeStamp;
 
+//Creamos una funcion que verifique si el token existe, o si necesita renovarse
 const authRequest = (req, res, next) =>
 {
-    if (!accessToken)
+    if (!accessToken || Date.now() > timeStamp)
     {
         request(
             {
@@ -34,7 +38,9 @@ const authRequest = (req, res, next) =>
             if (response.statusCode == 200)
             {
                 console.log('Acceso concedido');
-                accessToken = JSON.parse(body).access_token;
+                bodyObject = JSON.parse(body);
+                accessToken = bodyObject.access_token;
+                timeStamp = Date.now() + 3600000;
                 next();
             } else
             {
@@ -46,10 +52,12 @@ const authRequest = (req, res, next) =>
     }
     else
     {
+        //Continuamos con la peticion
         next();
     }
 }
 
+//Indicamos al servidor el uso del middleware
 app.use(authRequest);
 
 //Sirve la pagina en el folder public para la ruta inicial
@@ -65,6 +73,7 @@ app.get('/postData', function (req, res)
     request({
         method: 'POST',
         uri: `https://api.softwareavanzado.world/index.php?webserviceClient=administrator&webserviceVersion=1.0.0&option=contact&api=hal`,
+        //Incluimos el token de acceso como bearer en el header Authorization
         headers: { 'content-type': 'application/json', 'authorization': `Bearer ${accessToken}` },
         body: JSON.stringify({ name: '201603191' })
     }, function (error, response, body)
@@ -75,7 +84,7 @@ app.get('/postData', function (req, res)
         }
         else
         {
-            console.log('Error en token: ' + response.statusCode);
+            console.log('Error: ' + response.statusCode);
             console.log(body);
         }
     }).pipe(res);
@@ -91,6 +100,7 @@ app.get('/getPosted', function (req, res)
         url: 'https://api.softwareavanzado.world/index.php?webserviceClient=administrator&webserviceVersion=1.0.0&option=contact&api=hal&filter[search]=201603191',
         headers: {
             'content-type': 'application/json',
+            //Incluimos el tocken de acceso como bearer en el header Authorization
             'authorization': `Bearer ${accessToken}`
         }
     }
