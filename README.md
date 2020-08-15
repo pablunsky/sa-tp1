@@ -18,9 +18,10 @@ Proceda a instalar las dependencias de node:
 ```
 npm install
 ```
-Existen dos formas de utilizar la aplicacion>
+Existen dos formas de utilizar la aplicacion:
 1. Como cliente REST autorizado.
 2. Como cliente SOAP autorizado.
+
 Para ejecutar la aplicacion, corra alguno de los siguientes comandos:
 ```
 # Cliente REST
