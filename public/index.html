@@ -84,16 +84,26 @@
                     let cont = document.getElementById("data");
                     cont.innerHTML = "";
                     //Agrega un contenedor por cada elemento recibido del endpoint
-                    data._embedded.item.forEach(item =>
-                    {
-                        cont.innerHTML += `<div class="w3-card-4">
-                            <header class="w3-container w3-blue">
-                              <p>ID: ${item.id}</p>
-                              <p>NAME: ${item.name}</p>
-                            </header>
-                        </div><br/>`;
-                    });
-
+                    if (data._embedded)
+                        data._embedded.item.forEach(item =>
+                        {
+                            cont.innerHTML += `<div class="w3-card-4">
+                                <header class="w3-container w3-blue">
+                                <p>ID: ${item.id}</p>
+                                <p>NAME: ${item.name}</p>
+                                </header>
+                            </div><br/>`;
+                        });
+                    else
+                        data.list.item.forEach(item =>
+                        {
+                            cont.innerHTML += `<div class="w3-card-4">
+                                <header class="w3-container w3-blue">
+                                <p>ID: ${item.id}</p>
+                                <p>NAME: ${item.name}</p>
+                                </header>
+                            </div><br/>`;
+                        });
                 })
             })
         }
