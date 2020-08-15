@@ -3,6 +3,7 @@ const bodyParser = require('body-parser')
 var app = express();
 var soap = require('soap');
 
+//Utilizando SOAP como cliente
 var soapClient;
 soap.createClient('https://api.softwareavanzado.world/index.php?webserviceClient=administrator&webserviceVersion=1.0.0&option=contact&api=soap&wsdl', function (err, client)
 {

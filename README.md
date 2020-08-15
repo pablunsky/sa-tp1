@@ -7,6 +7,7 @@ Para poder utilizar la aplicacion, es necesario contar con:
 - node.js version 12.16.2
 - npm version 6.14.4
 - Acceso a internet y un navegador compatible con la API fetch.
+- Archivo .env con la variable de entorno de CLIENT_SECRET, en caso utilice el cliente REST.
 ## Uso
 Para utilizar el cliente, debe descargar el proyecto:
 ```
@@ -17,9 +18,15 @@ Proceda a instalar las dependencias de node:
 ```
 npm install
 ```
-Para ejecutar la aplicacion, corra el siguiente comando:
+Existen dos formas de utilizar la aplicacion>
+1. Como cliente REST autorizado.
+2. Como cliente SOAP autorizado.
+Para ejecutar la aplicacion, corra alguno de los siguientes comandos:
 ```
-node index.js
+# Cliente REST
+node REST_index.js
+# Cliente SOAP
+node SOAP_index.js
 ```
 Si se dirige al navegador, en la ruta http://localhost:3500/ debera visualizar la pagina principal.
 Al hacer clic en el boton "Insertar" publicara un nuevo contacto con el nombre "201603191".
